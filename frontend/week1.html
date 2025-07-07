@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1: Algorithms & Decomposition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px 50px;
+            text-align: center;
+            min-height: 600px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .slide h2 {
+            color: #34495e;
+            font-size: 2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .slide h3 {
+            color: #2980b9;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .slide p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .slide ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .slide li {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+            color: #555;
+        }
+
+        .slide li:before {
+            content: "🔸";
+            position: absolute;
+            left: 0;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #e74c3c;
+        }
+
+        .activity-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #27ae60;
+        }
+
+        .code-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .prev, .next {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .prev:hover, .next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .day-badge {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .scratch-connection {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #f39c12;
+        }
+
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .emoji {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">18</span>
+        </div>
+
+        <!-- Title Slide -->
+        <div class="slide active">
+            <h1>🚀 Week 1: Algorithms & Decomposition</h1>
+            <div class="emoji">🧠💻</div>
+            <p>Welcome to our 6-Week Coding Bootcamp!</p>
+            <p>This week we'll explore the fundamental concepts that make all programming possible.</p>
+            <div class="activity-box">
+                <strong>💡 What we'll learn:</strong>
+                <ul>
+                    <li>What algorithms are and why they matter</li>
+                    <li>How to break down big problems into smaller pieces</li>
+                    <li>Connect these concepts to your Scratch experience</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- DAY 1 SLIDES -->
+        <div class="slide">
+            <div class="day-badge">DAY 1</div>
+            <h2>What is an Algorithm? 🤔</h2>
+            <div class="example-box">
+                <h3>Think of it like a recipe! 👨‍🍳</h3>
+                <p>An algorithm is a set of step-by-step instructions to solve a problem or complete a task.</p>
+            </div>
+            <div class="scratch-connection">
+                <strong>🎯 Connection to Scratch:</strong>
+                <p>Remember when you made your sprite move across the screen? Those blocks you connected were creating an algorithm!</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 1</div>
+            <h2>Algorithm Example: Making a Sandwich 🥪</h2>
+            <div class="code-box">
+                <strong>Algorithm Steps:</strong><br>
+                1. Get bread slices<br>
+                2. Open peanut butter jar<br>
+                3. Spread peanut butter on one slice<br>
+                4. Open jelly jar<br>
+                5. Spread jelly on other slice<br>
+                6. Put slices together<br>
+                7. Enjoy your sandwich!
+            </div>
+            <p>Notice how specific and ordered these steps are? That's what makes a good algorithm!</p>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 1</div>
+            <h2>Algorithms in Your Daily Life 🏠</h2>
+            <div class="activity-box">
+                <strong>🎯 Let's Brainstorm Together!</strong>
+                <ul>
+                    <li>Getting ready for school</li>
+                    <li>Brushing your teeth</li>
+                    <li>Playing a game</li>
+                    <li>Following GPS directions</li>
+                    <li>Making your bed</li>
+                </ul>
+                <p><strong>Your turn:</strong> Can you think of more examples?</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 1</div>
+            <h2>🎮 Unplugged Activity: Human Robot</h2>
+            <div class="activity-box">
+                <strong>How to play:</strong>
+                <ul>
+                    <li>One person is the "programmer"</li>
+                    <li>One person is the "robot"</li>
+                    <li>Programmer gives step-by-step instructions</li>
+                    <li>Robot follows EXACTLY what is said</li>
+                    <li>Goal: Get the robot to pick up an object</li>
+                </ul>
+                <p><strong>Remember:</strong> Robots only do exactly what they're told!</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 1</div>
+            <h2>Algorithms in Scratch 🐱</h2>
+            <div class="scratch-connection">
+                <strong>Let's connect to your Scratch projects!</strong>
+                <p>When you drag blocks together in Scratch, you're creating algorithms:</p>
+                <ul>
+                    <li><strong>When flag clicked</strong> → Start the algorithm</li>
+                    <li><strong>Move 10 steps</strong> → One instruction</li>
+                    <li><strong>Turn 15 degrees</strong> → Another instruction</li>
+                    <li><strong>Say "Hello!"</strong> → Final instruction</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- DAY 2 SLIDES -->
+        <div class="slide">
+            <div class="day-badge">DAY 2</div>
+            <h2>What is Decomposition? 🧩</h2>
+            <div class="example-box">
+                <h3>Breaking Big Problems into Smaller Pieces!</h3>
+                <p>Decomposition means taking a complex problem and breaking it down into smaller, manageable parts.</p>
+            </div>
+            <div class="emoji">🏗️ → 🧱🧱🧱</div>
+            <p>Just like building with blocks - you don't build a house all at once!</p>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 2</div>
+            <h2>Decomposition Example: Cleaning Your Room 🧹</h2>
+            <div class="code-box">
+                <strong>Big Problem:</strong> Clean messy room<br><br>
+                <strong>Broken Down:</strong><br>
+                <span class="step-number">1</span> Pick up clothes<br>
+                <span class="step-number">2</span> Make the bed<br>
+                <span class="step-number">3</span> Clear the desk<br>
+                <span class="step-number">4</span> Put away toys<br>
+                <span class="step-number">5</span> Vacuum floor<br>
+            </div>
+            <p>Much easier when broken into steps, right?</p>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 2</div>
+            <h2>🎯 Activity: Decompose "Getting Ready for School"</h2>
+            <div class="activity-box">
+                <strong>Work in pairs and break down this big task:</strong>
+                <p style="font-size: 1.5em; color: #2c3e50;"><strong>"Getting Ready for School"</strong></p>
+                <p>Write down at least 6 smaller steps. Think about:</p>
+                <ul>
+                    <li>What do you do first?</li>
+                    <li>What comes next?</li>
+                    <li>What's the last thing you do?</li>
+                </ul>
+                <p><strong>Time limit:</strong> 5 minutes</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 2</div>
+            <h2>Decomposition in Scratch Projects 🎮</h2>
+            <div class="scratch-connection">
+                <strong>Think about a Scratch game you've made:</strong>
+                <ul>
+                    <li><strong>Big Goal:</strong> Create a catching game</li>
+                    <li><strong>Smaller parts:</strong>
+                        <ul>
+                            <li>Make the player sprite move</li>
+                            <li>Make objects fall from the sky</li>
+                            <li>Detect when player catches objects</li>
+                            <li>Keep score</li>
+                            <li>Show game over screen</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 2</div>
+            <h2>🎮 Blockly Games Time!</h2>
+            <div class="activity-box">
+                <strong>Let's practice with Blockly Games:</strong>
+                <ul>
+                    <li>Start with "Maze" game</li>
+                    <li>Look at the big problem: Get to the finish</li>
+                    <li>Break it down: Move forward, turn left, turn right</li>
+                    <li>Create your algorithm step by step</li>
+                </ul>
+                <p><strong>Goal:</strong> Complete at least 3 levels using decomposition!</p>
+            </div>
+        </div>
+
+        <!-- DAY 3 SLIDES -->
+        <div class="slide">
+            <div class="day-badge">DAY 3</div>
+            <h2>Putting It All Together! 🎯</h2>
+            <div class="example-box">
+                <h3>Algorithms + Decomposition = Problem Solving Power!</h3>
+                <ul>
+                    <li><strong>Decomposition:</strong> Break the problem into parts</li>
+                    <li><strong>Algorithm:</strong> Create step-by-step solutions for each part</li>
+                    <li><strong>Combine:</strong> Put all the solutions together</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 3</div>
+            <h2>🍳 Master Challenge: Making Pancakes</h2>
+            <div class="activity-box">
+                <strong>Your mission:</strong>
+                <p>Work in teams to create the complete algorithm for making pancakes!</p>
+                <p><strong>Step 1:</strong> Use decomposition to break this into main parts</p>
+                <p><strong>Step 2:</strong> Create detailed algorithms for each part</p>
+                <p><strong>Step 3:</strong> Put it all together</p>
+                <p><strong>Step 4:</strong> Present your solution!</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 3</div>
+            <h2>🎮 Scratch Challenge: Plan Your Next Project</h2>
+            <div class="scratch-connection">
+                <strong>Choose one project idea:</strong>
+                <ul>
+                    <li>🏃‍♂️ Racing game</li>
+                    <li>🎨 Digital art creator</li>
+                    <li>📖 Interactive story</li>
+                    <li>🧮 Simple calculator</li>
+                </ul>
+                <p><strong>Your task:</strong> Use decomposition to break your chosen project into smaller parts, then create algorithms for each part.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 3</div>
+            <h2>🎯 Final Activity: Algorithm Relay Race</h2>
+            <div class="activity-box">
+                <strong>Team Challenge:</strong>
+                <ul>
+                    <li>Teams of 3-4 students</li>
+                    <li>Each team gets a complex task</li>
+                    <li>Use decomposition to break it down</li>
+                    <li>Each team member creates an algorithm for one part</li>
+                    <li>Combine and present your solution</li>
+                </ul>
+                <p><strong>Tasks:</strong> Planning a birthday party, Building a treehouse, Organizing a school event</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="day-badge">DAY 3</div>
+            <h2>🎉 What We've Learned This Week</h2>
+            <div class="example-box">
+                <h3>Key Takeaways:</h3>
+                <ul>
+                    <li>✅ Algorithms are step-by-step instructions</li>
+                    <li>✅ Decomposition breaks big problems into smaller ones</li>
+                    <li>✅ These concepts are everywhere in programming</li>
+                    <li>✅ You already use these in Scratch!</li>
+                </ul>
+            </div>
+            <div class="scratch-connection">
+                <strong>🚀 Next Week Preview:</strong>
+                <p>We'll dive deeper into logical reasoning and learn more about how computer programs are constructed!</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <h2>🎯 Week 1 Wrap-up</h2>
+            <div class="emoji">🎉</div>
+            <p>Great job this week! You've learned the foundational concepts that every programmer needs to know.</p>
+            <div class="activity-box">
+                <strong>🏠 Optional Homework:</strong>
+                <ul>
+                    <li>Find 3 algorithms you use at home</li>
+                    <li>Practice decomposition on a task of your choice</li>
+                    <li>Work on your Scratch project using what you learned</li>
+                </ul>
+            </div>
+            <p><strong>Next week:</strong> We'll explore logical reasoning and program construction!</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="prev" onclick="changeSlide(-1)">❮ Previous</button>
+            <button class="next" onclick="changeSlide(1)">Next ❯</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+
+        function changeSlide(n) {
+            showSlide(currentSlide + n);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (event.key === 'ArrowRight') {
+                changeSlide(1);
+            }
+        });
+    </script>
+</body>
+</html>
